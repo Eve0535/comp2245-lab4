@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         'input[name="available"]'
     );
 
-    
+
     try {
         const response = await fetch('subjects.php');
 
