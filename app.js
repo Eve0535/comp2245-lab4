@@ -3,7 +3,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const form = document.querySelector('form');
     const tbody = document.querySelector('tbody');
     const status = document.querySelector('#status');
+    const searchButton = form.querySelector(
+        'button[type="submit"], input[type="submit"]'
+    );
+    const availableCheckbox = form.querySelector(
+        'input[name="available"]'
+    );
 
+    
     try {
         const response = await fetch('subjects.php');
 
@@ -25,6 +32,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function loadBooks() {
         const params = new URLSearchParams(new FormData(form));
+        searchButton.disabled = true;
+        status.textContent = 'Searching…';
 
         try {
             const response = await fetch(`books.php?${params}`);
@@ -64,7 +73,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
 
                 row.appendChild(copiesCell);
-
                 tbody.appendChild(row);
             });
 
@@ -78,6 +86,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         } catch (error) {
             console.error(error);
+            tbody.replaceChildren();
+            status.textContent = "Couldn't load the books. Please try again.";
+
+        } finally {
+            searchButton.disabled = false;
         }
     }
 
@@ -86,4 +99,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         event.preventDefault();
         loadBooks();
     });
+
+    subjectList.addEventListener('change', loadBooks);
+    availableCheckbox.addEventListener('change', loadBooks);
 });
