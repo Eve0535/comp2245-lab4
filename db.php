@@ -1,6 +1,4 @@
-
 <?php
-
 require __DIR__ . '/config.php';
 $dsn = 'mysql:host=localhost;dbname=catalogue;charset=utf8mb4';
 $user = 'comp2245';
